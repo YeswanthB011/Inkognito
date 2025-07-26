@@ -1,9 +1,0 @@
-com/inkognito/model/DiaryEntry$Category.class
-com/inkognito/model/DiaryEntry.class
-com/inkognito/model/User.class
-com/inkognito/repository/UserRepository.class
-com/inkognito/InkognitoDiaryApplication.class
-com/inkognito/service/UserService.class
-com/inkognito/controller/MainController.class
-com/inkognito/repository/DiaryEntryRepository.class
-com/inkognito/service/DiaryEntryService.class
