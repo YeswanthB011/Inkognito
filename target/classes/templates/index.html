@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="base :: html">
+<head>
+    <title>Welcome - Inkognito Virtual Diary</title>
+</head>
+<body>
+    <div th:replace="base :: content">
+        <!-- Alert Messages -->
+        <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
+        <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+        
+        <div class="grid grid-2">
+            <!-- Login Form -->
+            <div class="card">
+                <h2 class="mb-3">Welcome Back!</h2>
+                <p class="text-muted mb-3">Login to access your virtual diary</p>
+                
+                <form th:action="@{/login}" method="post">
+                    <div class="form-group">
+                        <label for="loginUsername">Username</label>
+                        <input type="text" id="loginUsername" name="username" class="form-control" 
+                               placeholder="Enter your username" required>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        🚪 Login
+                    </button>
+                </form>
+            </div>
+            
+            <!-- Registration Form -->
+            <div class="card">
+                <h2 class="mb-3">Join Inkognito</h2>
+                <p class="text-muted mb-3">Create your private diary account</p>
+                
+                <form th:action="@{/register}" method="post">
+                    <div class="form-group">
+                        <label for="registerUsername">Username</label>
+                        <input type="text" id="registerUsername" name="username" class="form-control" 
+                               placeholder="Choose a unique username" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="professionalJob">Professional Job</label>
+                        <input type="text" id="professionalJob" name="professionalJob" class="form-control" 
+                               placeholder="e.g., Software Developer, Teacher, etc.">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="hobbyJob">Hobby/Interest</label>
+                        <input type="text" id="hobbyJob" name="hobbyJob" class="form-control" 
+                               placeholder="e.g., Photography, Cooking, Gaming, etc.">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        ✨ Create Account
+                    </button>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Features Section -->
+        <div class="card mt-3">
+            <h2 class="text-center mb-3">Why Choose Inkognito?</h2>
+            <div class="grid grid-4">
+                <div class="text-center">
+                    <h3>🔒 Private</h3>
+                    <p class="text-muted">Your thoughts are safe and secure</p>
+                </div>
+                <div class="text-center">
+                    <h3>📝 Organized</h3>
+                    <p class="text-muted">Categorize your entries by topic</p>
+                </div>
+                <div class="text-center">
+                    <h3>⏰ Daily Check-ins</h3>
+                    <p class="text-muted">Track your daily mood and feelings</p>
+                </div>
+                <div class="text-center">
+                    <h3>🎯 Simple</h3>
+                    <p class="text-muted">Easy to use, focused on your needs</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Categories Preview -->
+        <div class="card">
+            <h2 class="text-center mb-3">Track What Matters to You</h2>
+            <div class="grid grid-4">
+                <div class="text-center">
+                    <h4>📚 Books</h4>
+                    <p class="text-muted">Reading progress & reviews</p>
+                </div>
+                <div class="text-center">
+                    <h4>💪 Workout</h4>
+                    <p class="text-muted">Fitness journey & goals</p>
+                </div>
+                <div class="text-center">
+                    <h4>🎓 Learning</h4>
+                    <p class="text-muted">Skills & knowledge growth</p>
+                </div>
+                <div class="text-center">
+                    <h4>🏫 Academy</h4>
+                    <p class="text-muted">Educational milestones</p>
+                </div>
+                <div class="text-center">
+                    <h4>🎮 Games</h4>
+                    <p class="text-muted">Gaming experiences</p>
+                </div>
+                <div class="text-center">
+                    <h4>🎵 Music</h4>
+                    <p class="text-muted">Musical discoveries</p>
+                </div>
+                <div class="text-center">
+                    <h4>🎬 Movies</h4>
+                    <p class="text-muted">Film reviews & thoughts</p>
+                </div>
+                <div class="text-center">
+                    <h4>💝 Relationships</h4>
+                    <p class="text-muted">Personal connections</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

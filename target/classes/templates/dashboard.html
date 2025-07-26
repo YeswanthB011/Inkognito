@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="base :: html">
+<head>
+    <title>Dashboard - Inkognito Virtual Diary</title>
+</head>
+<body>
+    <div th:replace="base :: content">
+        <!-- Navigation -->
+        <div class="navbar">
+            <div>
+                <span>Welcome, <strong th:text="${user.username}">User</strong>!</span>
+            </div>
+            <div>
+                <a th:href="@{/logout}" class="btn btn-secondary">🚪 Logout</a>
+            </div>
+        </div>
+        
+        <!-- Alert Messages -->
+        <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
+        <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+        
+        <!-- User Profile & Daily Feeling -->
+        <div class="grid grid-2">
+            <!-- User Profile -->
+            <div class="card">
+                <h2 class="mb-3">👤 Your Profile</h2>
+                <div class="mb-2">
+                    <strong>Username:</strong> <span th:text="${user.username}">username</span>
+                </div>
+                <div class="mb-2">
+                    <strong>Professional Job:</strong> 
+                    <span th:text="${user.professionalJob} ?: 'Not specified'">job</span>
+                </div>
+                <div class="mb-2">
+                    <strong>Hobby/Interest:</strong> 
+                    <span th:text="${user.hobbyJob} ?: 'Not specified'">hobby</span>
+                </div>
+                <div class="mb-2">
+                    <strong>Member Since:</strong> 
+                    <span th:text="${#temporals.format(user.createdAt, 'MMM dd, yyyy')}">date</span>
+                </div>
+            </div>
+            
+            <!-- Daily Feeling -->
+            <div class="card">
+                <h2 class="mb-3">💭 How are you feeling today?</h2>
+                
+                <div th:if="${user.dailyFeeling != null and user.lifeSituation != null}" class="mb-3">
+                    <div class="alert alert-success">
+                        <strong>Today's Feeling:</strong> <span th:text="${user.dailyFeeling}">feeling</span><br>
+                        <strong>Life Situation:</strong> <span th:text="${user.lifeSituation}">situation</span><br>
+                        <small class="text-muted">
+                            Updated: <span th:text="${#temporals.format(user.feelingUpdatedAt, 'MMM dd, yyyy HH:mm')}">time</span>
+                        </small>
+                    </div>
+                </div>
+                
+                <form th:if="${canUpdateFeeling}" th:action="@{/update-feeling}" method="post">
+                    <div class="form-group">
+                        <label for="dailyFeeling">How do you feel today?</label>
+                        <select id="dailyFeeling" name="dailyFeeling" class="form-control" required>
+                            <option value="">Select your feeling...</option>
+                            <option value="😊 Great">😊 Great</option>
+                            <option value="🙂 Good">🙂 Good</option>
+                            <option value="😐 Okay">😐 Okay</option>
+                            <option value="😔 Not great">😔 Not great</option>
+                            <option value="😢 Terrible">😢 Terrible</option>
+                            <option value="😴 Tired">😴 Tired</option>
+                            <option value="😤 Stressed">😤 Stressed</option>
+                            <option value="🤗 Excited">🤗 Excited</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="lifeSituation">How do you feel about your current life situation?</label>
+                        <textarea id="lifeSituation" name="lifeSituation" class="form-control" rows="3" 
+                                  placeholder="Share your thoughts about your current life situation..." required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        💾 Update Daily Feeling
+                    </button>
+                </form>
+                
+                <div th:unless="${canUpdateFeeling}" class="text-center text-muted">
+                    <p>You've already updated your feeling today!</p>
+                    <p>Come back tomorrow to share how you're feeling.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Categories -->
+        <div class="card">
+            <h2 class="mb-3">📝 Your Diary Categories</h2>
+            <div class="grid grid-4">
+                <a th:href="@{/category/books}" class="card text-center" style="text-decoration: none; color: inherit;">
+                    <h3>📚 Books</h3>
+                    <p class="text-muted mb-2">Reading & Reviews</p>
+                    <strong th:text="${booksCount} + ' entries'">0 entries</strong>
+                </a>
+                
+                <a th:href="@{/category/workout}" class="card text-center" style="text-decoration: none; color: inherit;">
+                    <h3>💪 Workout</h3>
+                    <p class="text-muted mb-2">Fitness Journey</p>
+                    <strong th:text="${workoutCount} + ' entries'">0 entries</strong>
+                </a>
+                
+                <a th:href="@{/category/learnings}" class="card text-center" style="text-decoration: none; color: inherit;">
+                    <h3>🎓 Learning</h3>
+                    <p class="text-muted mb-2">Skills & Knowledge</p>
+                    <strong th:text="${learningsCount} + ' entries'">0 entries</strong>
+                </a>
+                
+                <a th:href="@{/category/academy}" class="card text-center" style="text-decoration: none; color: inherit;">
+                    <h3>🏫 Academy</h3>
+                    <p class="text-muted mb-2">Educational Progress</p>
+                    <strong th:text="${academyCount} + ' entries'">0 entries</strong>
+                </a>
+                
+                <a th:href="@{/category/video_games}" class="card text-center" style="text-decoration: none; color: inherit;">
+                    <h3>🎮 Video Games</h3>
+                    <p class="text-muted mb-2">Gaming Experiences</p>
+                    <strong th:text="${video_gamesCount} + ' entries'">0 entries</strong>
+                </a>
+                
+                <a th:href="@{/category/music}" class="card text-center" style="text-decoration: none; color: inherit;">
+                    <h3>🎵 Music</h3>
+                    <p class="text-muted mb-2">Musical Discoveries</p>
+                    <strong th:text="${musicCount} + ' entries'">0 entries</strong>
+                </a>
+                
+                <a th:href="@{/category/movies}" class="card text-center" style="text-decoration: none; color: inherit;">
+                    <h3>🎬 Movies</h3>
+                    <p class="text-muted mb-2">Film Reviews</p>
+                    <strong th:text="${moviesCount} + ' entries'">0 entries</strong>
+                </a>
+                
+                <a th:href="@{/category/relationship}" class="card text-center" style="text-decoration: none; color: inherit;">
+                    <h3>💝 Relationships</h3>
+                    <p class="text-muted mb-2">Personal Connections</p>
+                    <strong th:text="${relationshipCount} + ' entries'">0 entries</strong>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Recent Entries -->
+        <div class="card" th:if="${not #lists.isEmpty(recentEntries)}">
+            <h2 class="mb-3">📋 Recent Entries (Last 7 Days)</h2>
+            <div class="grid grid-2">
+                <div th:each="entry : ${recentEntries}" class="card" style="margin-bottom: 10px;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+                        <div>
+                            <h4 class="mb-1" th:text="${entry.title}">Entry Title</h4>
+                            <small class="text-muted" th:text="${entry.category.displayName}">Category</small>
+                        </div>
+                        <span th:if="${entry.rating != null}" class="text-muted">
+                            <span th:each="i : ${#numbers.sequence(1, entry.rating)}">⭐</span>
+                        </span>
+                    </div>
+                    <p class="text-muted mb-2" th:text="${#strings.abbreviate(entry.content, 100)}">Content preview...</p>
+                    <small class="text-muted" th:text="${#temporals.format(entry.createdAt, 'MMM dd, yyyy HH:mm')}">Date</small>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card text-center" th:if="${#lists.isEmpty(recentEntries)}">
+            <h3>🌟 Start Your Journey</h3>
+            <p class="text-muted">You haven't created any entries yet. Click on any category above to get started!</p>
+        </div>
+    </div>
+</body>
+</html>
